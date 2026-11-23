@@ -1,0 +1,2 @@
+[mov @ 0x5d16ec59f080] Application provided duration: -9223372036854775808 / timestamp: -9223372036854775808 is out of range for mov/mp4 format
+frame=    1 fps=0.0 q=0.0 size=N/A time=00:00:00.06 bitrate=N/A speed=2.61x    frame=    4 fps=0.0 q=0.0 size=N/A time=00:00:00.21 bitrate=N/A speed=0.398x    frame=    9 fps=8.1 q=0.0 size=N/A time=00:00:00.42 bitrate=N/A speed=0.382x    frame=   13 fps=7.8 q=15.0 size=N/A time=00:00:00.59 bitrate=N/A speed=0.359x    

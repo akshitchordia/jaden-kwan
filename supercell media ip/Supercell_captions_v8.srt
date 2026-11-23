@@ -1,0 +1,192 @@
+1
+00:00:00,020 --> 00:00:01,020
+Supercell has killed
+
+2
+00:00:01,020 --> 00:00:01,580
+more than 30
+
+3
+00:00:01,580 --> 00:00:02,840
+of its own games.
+
+4
+00:00:03,340 --> 00:00:04,060
+It's launched
+
+5
+00:00:04,060 --> 00:00:05,100
+five hits.
+
+6
+00:00:05,100 --> 00:00:06,220
+That's the company behind
+
+7
+00:00:06,220 --> 00:00:07,020
+Clash of Clans
+
+8
+00:00:07,020 --> 00:00:07,900
+and Clash Royale.
+
+9
+00:00:07,900 --> 00:00:08,540
+The CEO is
+
+10
+00:00:08,540 --> 00:00:09,660
+Ilkka Paananen.
+
+11
+00:00:09,660 --> 00:00:10,460
+And the wild thing is
+
+12
+00:00:10,460 --> 00:00:11,100
+some of those games
+
+13
+00:00:11,100 --> 00:00:11,820
+were already out
+
+14
+00:00:11,820 --> 00:00:13,020
+with real users.
+
+15
+00:00:13,020 --> 00:00:14,300
+People were actually playing them.
+
+16
+00:00:14,300 --> 00:00:15,320
+Here's how it works.
+
+17
+00:00:15,320 --> 00:00:16,200
+They launch quietly
+
+18
+00:00:16,200 --> 00:00:17,160
+in a few countries like
+
+19
+00:00:17,160 --> 00:00:18,440
+Canada and Australia.
+
+20
+00:00:18,440 --> 00:00:19,640
+They watch the real numbers
+
+21
+00:00:19,640 --> 00:00:20,920
+and if a game doesn't hit
+
+22
+00:00:20,920 --> 00:00:21,640
+they kill it.
+
+23
+00:00:21,640 --> 00:00:22,520
+Spooky Pop
+
+24
+00:00:22,520 --> 00:00:23,640
+went into soft launch
+
+25
+00:00:23,640 --> 00:00:25,080
+December 2014.
+
+26
+00:00:25,080 --> 00:00:25,880
+By February
+
+27
+00:00:25,880 --> 00:00:26,640
+it was gone.
+
+28
+00:00:26,640 --> 00:00:27,520
+And Paananen says
+
+29
+00:00:27,520 --> 00:00:28,720
+it's not even his call.
+
+30
+00:00:28,720 --> 00:00:29,280
+He said
+
+31
+00:00:29,280 --> 00:00:30,400
+it's really the game teams
+
+32
+00:00:30,400 --> 00:00:31,440
+that run the show here
+
+33
+00:00:31,440 --> 00:00:32,400
+not me.
+
+34
+00:00:32,400 --> 00:00:33,360
+So the global launch
+
+35
+00:00:33,360 --> 00:00:34,320
+isn't a test
+
+36
+00:00:34,320 --> 00:00:35,440
+it's a reward.
+
+37
+00:00:35,440 --> 00:00:36,720
+And you can steal this.
+
+38
+00:00:36,720 --> 00:00:37,610
+Pick a market
+
+39
+00:00:37,610 --> 00:00:38,570
+where the stakes are lower
+
+40
+00:00:38,570 --> 00:00:39,770
+and launch there first.
+
+41
+00:00:39,770 --> 00:00:40,890
+For a consumer app
+
+42
+00:00:40,890 --> 00:00:41,850
+that's one country.
+
+43
+00:00:41,850 --> 00:00:43,050
+If you need network effects
+
+44
+00:00:43,050 --> 00:00:44,170
+like a marketplace
+
+45
+00:00:44,170 --> 00:00:45,130
+that's one city.
+
+46
+00:00:45,130 --> 00:00:46,090
+What you don't do is
+
+47
+00:00:46,090 --> 00:00:46,970
+launch to everyone
+
+48
+00:00:46,970 --> 00:00:48,757
+and pray.
+

@@ -1,0 +1,76 @@
+{
+ "frames": 273,
+ "fps": 23.976023976023978,
+ "seconds": 11.4,
+ "render_s": 60.0,
+ "face_box": [
+  364,
+  513,
+  724,
+  1075
+ ],
+ "glow_words": 2,
+ "issues": [],
+ "phrases": [
+  {
+   "start": -0.03999999999999998,
+   "end": 1.5999999999999999,
+   "skip": false,
+   "text": "Meta paid / $14 billion"
+  },
+  {
+   "start": 1.5999999999999999,
+   "end": 2.64,
+   "skip": false,
+   "text": "for a stake / in a company"
+  },
+  {
+   "start": 2.64,
+   "end": 3.94,
+   "skip": false,
+   "text": "that started / with a camera"
+  },
+  {
+   "start": 3.94,
+   "end": 5.0,
+   "skip": false,
+   "text": "in a / fridge."
+  },
+  {
+   "start": 5.0,
+   "end": 6.220000000000001,
+   "skip": false,
+   "text": "At MIT / Alexandr Wang"
+  },
+  {
+   "start": 6.220000000000001,
+   "end": 7.24,
+   "skip": false,
+   "text": "thought his / roommates were"
+  },
+  {
+   "start": 7.24,
+   "end": 8.1,
+   "skip": false,
+   "text": "stealing / his food"
+  },
+  {
+   "start": 8.1,
+   "end": 9.26,
+   "skip": false,
+   "text": "so he tried / to build / a camera"
+  },
+  {
+   "start": 9.26,
+   "end": 10.22,
+   "skip": false,
+   "text": "to catch / them."
+  },
+  {
+   "start": 10.22,
+   "end": 11.42,
+   "skip": false,
+   "text": "It couldn't / work."
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "frames": 1103,
+ "words_master": 158,
+ "words_cut": 159,
+ "longest_pauses": [
+  {
+   "gap": 0.68,
+   "between": "labor. | Random",
+   "at": 16.82
+  },
+  {
+   "gap": 0.56,
+   "between": "budgets. | And",
+   "at": 36.62
+  },
+  {
+   "gap": 0.46,
+   "between": "broad, | find",
+   "at": 29.68
+  },
+  {
+   "gap": 0.46,
+   "between": "laptop. | Launch",
+   "at": 28.76
+  },
+  {
+   "gap": 0.42,
+   "between": "small. | That's",
+   "at": 32.76
+  },
+  {
+   "gap": 0.42,
+   "between": "Meta, | he",
+   "at": 39.68
+  }
+ ]
+}

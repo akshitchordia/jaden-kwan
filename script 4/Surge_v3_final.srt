@@ -1,0 +1,183 @@
+1
+00:00:00,000 --> 00:00:00,620
+OpenAI
+
+2
+00:00:00,620 --> 00:00:00,940
+Google
+
+3
+00:00:00,940 --> 00:00:01,520
+and Anthropic
+
+4
+00:00:01,520 --> 00:00:02,000
+all buy from
+
+5
+00:00:02,000 --> 00:00:03,090
+a guy you've never heard of
+
+6
+00:00:03,200 --> 00:00:04,000
+His company did
+
+7
+00:00:04,000 --> 00:00:06,160
+$1.2 billion in 2024
+
+8
+00:00:06,160 --> 00:00:07,520
+with zero investors
+
+9
+00:00:07,520 --> 00:00:08,170
+His name is
+
+10
+00:00:08,320 --> 00:00:09,280
+Edwin Chen
+
+11
+00:00:09,280 --> 00:00:10,640
+and his company
+
+12
+00:00:10,640 --> 00:00:11,280
+makes the data
+
+13
+00:00:11,280 --> 00:00:12,160
+that those labs use
+
+14
+00:00:12,160 --> 00:00:13,360
+to train their models
+
+15
+00:00:13,360 --> 00:00:14,100
+And the wild thing is
+
+16
+00:00:14,160 --> 00:00:15,280
+it's about 100 people
+
+17
+00:00:15,280 --> 00:00:16,080
+and he says it's been
+
+18
+00:00:16,080 --> 00:00:17,580
+profitable since day one
+
+19
+00:00:17,600 --> 00:00:18,320
+So how do you
+
+20
+00:00:18,320 --> 00:00:18,940
+sell a billion
+
+21
+00:00:19,040 --> 00:00:20,480
+dollars with no sales team?
+
+22
+00:00:20,480 --> 00:00:21,360
+Honestly there are
+
+23
+00:00:21,360 --> 00:00:22,960
+only about a dozen buyers on earth
+
+24
+00:00:22,960 --> 00:00:23,680
+for this
+
+25
+00:00:23,680 --> 00:00:24,800
+and they're all researchers
+
+26
+00:00:24,960 --> 00:00:25,760
+that know each other
+
+27
+00:00:25,760 --> 00:00:27,200
+When one moves to a new lab
+
+28
+00:00:27,200 --> 00:00:28,920
+they ask for Surge to be there too
+
+29
+00:00:28,960 --> 00:00:30,300
+So his customers are
+
+30
+00:00:30,320 --> 00:00:31,440
+the sales team
+
+31
+00:00:31,440 --> 00:00:33,040
+If your market is 10 buyers
+
+32
+00:00:33,040 --> 00:00:34,880
+don't hire 10 salespeople
+
+33
+00:00:34,880 --> 00:00:35,760
+Get so good
+
+34
+00:00:35,760 --> 00:00:37,120
+that people inside those companies
+
+35
+00:00:37,360 --> 00:00:38,000
+fight for you
+
+36
+00:00:38,000 --> 00:00:38,640
+Epic did that
+
+37
+00:00:38,640 --> 00:00:39,520
+with hospitals
+
+38
+00:00:39,520 --> 00:00:40,240
+But if you're selling
+
+39
+00:00:40,240 --> 00:00:42,400
+to a million customers that never talk to each other
+
+40
+00:00:42,720 --> 00:00:43,700
+you need distribution
+
+41
+00:00:44,080 --> 00:00:44,640
+And now
+
+42
+00:00:44,640 --> 00:00:45,680
+investors want in
+
+43
+00:00:45,680 --> 00:00:46,320
+Surge has
+
+44
+00:00:46,320 --> 00:00:48,200
+reportedly been in talks to raise at up to
+
+45
+00:00:48,240 --> 00:00:49,040
+a thirty billion
+
+46
+00:00:49,040 --> 00:00:50,060
+dollar valuation

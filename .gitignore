@@ -1,0 +1,31 @@
+# Videos stay off GitHub (too big; masters live on the PC)
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.mkv
+*.avi
+*.webm
+*.mxf
+*.m4v
+*.braw
+*.r3d
+
+# Zipped / split video deliveries
+*.zip
+*.part[0-9][0-9]
+*.p[0-9][0-9]
+_proxy/
+
+# Python and OS clutter
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Premiere caches
+*.cfa
+*.pek
+Media Cache*/
+Adobe Premiere Pro Auto-Save/

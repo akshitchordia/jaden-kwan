@@ -1,0 +1,13 @@
+Supercell reel v3 - Premiere Pro timeline
+
+1. In Premiere Pro: File > Import > choose "Supercell_reel_v3_PREMIERE.xml".
+   (DaVinci Resolve: File > Import > Timeline > same file.)
+2. A sequence "Supercell reel v3" (1080x1920, 23.976 fps) appears with:
+   V1  your base edit (talking head + your B-rolls)
+   V2  every B-roll as its own clip, halftone texture baked in (B01..B16)
+   V3  captions overlay (transparent, serif glow) - toggle or replace freely
+   A1  original audio
+3. If Premiere asks to locate media, point it at the "media" folder next to this file.
+
+Captions as editable text: import media/Supercell_captions.srt (File > Import) and drop it on a caption track.
+B02_logo_PLACEHOLDER is where the new logo goes.

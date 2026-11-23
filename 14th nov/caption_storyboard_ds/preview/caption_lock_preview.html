@@ -1,0 +1,297 @@
+<title>Caption Lock Preview</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+<style>
+/* Layout: paper board; 4-up grid of live 9:16 frames, each a 1080-unit canvas so caption sizes match the spec in px */
+:root {
+  --paper: #FBFAF6; --ink: #2B2B29; --ink-soft: #494444; --muted: #918989; --hair: rgba(43,43,41,.16);
+  --primary: "Inter", "Helvetica Neue", Arial, sans-serif;     /* GT Standard stand-in */
+  --accent: "Newsreader", Georgia, "Times New Roman", serif;   /* HW Cigars stand-in */
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--primary); }
+.wrap { max-width: 1480px; margin: 0 auto; padding-block: 56px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mark { font-family: var(--accent); font-size: 22px; letter-spacing: -0.03em; margin: 0 0 36px; }
+h1 { font-family: var(--accent); font-weight: 400; font-size: clamp(34px, 5vw, 58px); line-height: .96; letter-spacing: -0.04em; margin: 0 0 16px; text-wrap: balance; }
+h1 i { font-style: italic; }
+.lede { font-size: 16px; line-height: 1.45; color: var(--ink-soft); max-width: 64ch; margin: 0; }
+.changes { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 18px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--ink-soft); }
+.changes li::before { content: "+ "; color: #3B1005; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin: 28px 0 40px; padding-top: 18px; border-top: 1px solid var(--hair); font-size: 13px; color: var(--ink-soft); }
+.bar button { font: 500 13px var(--primary); color: var(--paper); background: var(--ink); border: 0; padding: 10px 16px; cursor: pointer; border-radius: 0; }
+.bar button[aria-pressed="true"] { background: #3B1005; }
+.bar button:focus-visible { outline: 2px solid #387478; outline-offset: 2px; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 24px; }
+@media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+figure { margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.meta { display: flex; gap: 10px; font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-variant-numeric: tabular-nums; }
+.meta .n { color: var(--ink); }
+figcaption { font-size: 14px; line-height: 1.4; color: var(--ink-soft); }
+.frame { position: relative; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 6px; overflow: hidden; background: #000; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+/* caption engine (sizes set in JS from the 1080 grid) */
+.cap { position: absolute; color: #fff; }
+.line { display: block; white-space: nowrap; }
+.w { position: relative; display: inline-block; visibility: hidden; text-shadow: 0 .03em .15em rgba(0,0,0,.35); }
+.w.p { font-family: var(--primary); font-weight: 500; letter-spacing: -0.02em; }
+.w.a { font-family: var(--accent); font-style: italic; font-weight: 400; letter-spacing: -0.02em; }
+.w.n { font-family: var(--accent); font-style: normal; font-weight: 400; letter-spacing: -0.03em; font-variant-numeric: lining-nums; }
+.w.on { visibility: visible; }
+.blk, .trail { position: absolute; left: 0; top: .12em; height: .8em; width: 0; background: #fff; visibility: visible; pointer-events: none; }
+.trail { background: rgba(255,255,255,.4); }
+.txt { display: inline-block; transform-origin: 0 70%; }
+.bar { position: absolute; top: .06em; height: .9em; visibility: visible; pointer-events: none; display: none; border-radius: .1em; background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 35%, #fff 80%, rgba(255,255,255,.9) 100%); }
+.echo { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; white-space: nowrap; }
+.digit { display: inline-block; height: 1em; line-height: 1em; overflow: hidden; vertical-align: top; }
+.strip { display: block; will-change: transform; }
+.strip span { display: block; height: 1em; line-height: 1em; }
+.ref { margin-top: 64px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; padding-top: 24px; border-top: 1px solid var(--hair); }
+@media (max-width: 900px) { .ref { grid-template-columns: minmax(0, 1fr); } }
+.ref img { width: 100%; height: auto; display: block; border-radius: 4px; }
+.ref h2 { font-family: var(--accent); font-weight: 400; font-size: 30px; letter-spacing: -0.03em; margin: 0 0 14px; }
+.ref p.cap2 { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+.spec { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--ink-soft); }
+.spec b { color: var(--ink); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .bar button { display: none; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="h1" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="2 0"/></filter>
+    <filter id="h2" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="4 0"/></filter>
+    <filter id="h3" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="7 0"/></filter>
+    <filter id="v1" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="0 2"/></filter>
+    <filter id="v2" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="0 4"/></filter>
+    <filter id="v3" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="0 7"/></filter>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <p class="mark">tastefully.</p>
+  <h1>Caption lock, <i>matched</i> to the reference</h1>
+  <p class="lede">The Fridge reel recaptioned with the reference's caption system and our two fonts. Plain words come on with a flat white block. Only the key word in each phrase gets the serif italic and the glowing sweep. One shot has no caption on purpose.</p>
+  <ul class="changes">
+    <li>Slow-shutter trail on every glow word</li>
+    <li>Numbers roll in like an odometer, a size up</li>
+    <li>Captions bigger, more room between lines</li>
+    <li>Talking head: lower (starts 110 px below the chin), bigger, more space between lines</li>
+  </ul>
+  <div class="bar">
+    <button type="button" id="slow" aria-pressed="false">Slow motion</button>
+    <span>Locked v2. Real speed is 30 fps; slow motion plays it 6 times slower so you can see each frame of the trail and the roll.</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <section class="ref">
+    <div>
+      <h2>Reference, frame by frame</h2>
+      <img src="refstrip.jpg" alt="Eight consecutive frames from the reference: the word knock appears with a white block growing across it and a soft glow, then the clean italic word">
+      <p class="cap2">Video-36963, frames 849 to 856. "I need to go" is already up, then <i>knock</i>: a white block with a glow grows across the word over 5 frames, then the clean word.</p>
+    </div>
+    <ul class="spec">
+      <li><b>Size</b> Sans 84 px and serif italic 92 px on 1080 wide. Numbers 132 px. Line spacing 1.12 of the biggest word on the line.</li>
+      <li><b>Placement</b> B-roll: centred at about 52% height, or up at about 30% when the centre is busy. Talking head: on the chest, left edge x 90, starting at y 1160 (the chin is at about 1050), left of the mic, so the face is never covered. Lines are left-aligned and the key line can be indented.</li>
+      <li><b>Plain words</b> One frame of a flat white block, then the word. No glow, no trail.</li>
+      <li><b>Key word</b> Serif italic. A blurred ghost, then a glowing block grows across the word while the earlier block positions linger as a fading trail (slow shutter). The word lands smeared sideways with two fading echoes, then sharpens over 2 frames.</li>
+      <li><b>Numbers</b> Every digit rolls like an odometer, blurred vertically while it spins, landing left to right with a soft glow. The rest of the key phrase then sweeps in.</li>
+      <li><b>No caption</b> When the shot already says it (a logo, a sign, a headline) or the frame is too busy.</li>
+      <li><b>Text</b> White, soft shadow, sentence case, full stops kept, no commas at line ends.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+/* token: [text] plain, [text, 'k'] key word, [text, 'n'] rolling number */
+const SHOTS = [
+  { n: '01', t: '0:00.9', img: 's1.jpg', at: [90, 1160], note: 'Hook. The number rolls in, then "billion" sweeps with the trail.', lines: [{ w: [['Meta'], ['paid']] }, { w: [['$14', 'n'], ['billion', 'k']] }] },
+  { n: '02', t: '0:07.6', img: 's2.jpg', at: [90, 1160], note: 'Short lines so the stack stays on the chest, clear of the mic.', lines: [{ w: [['his'], ['roommates']] }, { w: [['were'], ['stealing', 'k']] }, { w: [['his'], ['food.']] }] },
+  { n: '03', t: '0:24.5', img: 's3b.jpg', center: 1000, note: 'B-roll: centred, key line indented.', lines: [{ w: [['Random'], ['engineers']] }, { ind: 110, w: [['showed up.', 'k']] }] },
+  { n: '04', t: '0:26.6', img: 's4.jpg', none: true, note: 'No caption. The Cruise wordmark already says it, so a caption would only clutter it.' },
+  { n: '05', t: '0:33.3', img: 's5.jpg', center: 640, note: 'Face in the centre, so the stack moves up.', lines: [{ w: [['conference']] }, { ind: 60, w: [['booth to booth', 'k']] }] },
+  { n: '06', t: '0:40.7', img: 's6.jpg', at: [90, 1160], note: 'The takeaway word gets the sweep and trail.', lines: [{ w: [["That's"], ['the']] }, { ind: 70, w: [['formula.', 'k']] }] },
+  { n: '07', t: '0:47.2', img: 's7.jpg', center: 390, note: 'Phone fills the centre, so the stack moves to the top.', lines: [{ w: [['its'], ['AI'], ['could']] }, { w: [['refill'], ['your'], ['fridge.', 'k']] }] },
+  { n: '08', t: '0:52.4', img: 's8.jpg', at: [90, 1160], note: 'The name lands last with the glow and trail.', lines: [{ w: [['the']] }, { w: [['inspiration']] }, { ind: 50, w: [['for'], ['Scale AI.', 'k']] }] }
+];
+const SIZE = { p: 84, k: 92, n: 132 };
+const PLAIN_GAP = 8, KEY_GAP = 13, NUM_GAP = 22, HOLD = 44, BLANK = 8;
+const grid = document.getElementById('grid');
+const cards = [];
+const mk = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+SHOTS.forEach((s, i) => {
+  const fig = document.createElement('figure');
+  fig.innerHTML = `<div class="meta"><span class="n">${s.n}</span><span>${s.t}</span></div><div class="frame"><img src="${s.img}" alt="Frame ${s.n} from the Fridge reel"></div><figcaption>${s.note}</figcaption>`;
+  grid.appendChild(fig);
+  const frame = fig.querySelector('.frame');
+  if (s.none) { cards.push(null); return; }
+  const cap = mk('div', 'cap'); frame.appendChild(cap);
+  const words = []; let f = 4;
+  s.lines.forEach(L => {
+    const line = mk('div', 'line'); line.dataset.ind = L.ind || 0; cap.appendChild(line);
+    L.w.forEach(([txt, kind], j) => {
+      if (j) line.appendChild(document.createTextNode(' '));
+      const type = kind === 'k' ? 'a' : kind === 'n' ? 'n' : 'p';
+      const sp = mk('span', 'w ' + type); sp.dataset.size = SIZE[kind || 'p'];
+      const w = { el: sp, type, start: 0 };
+      if (type === 'n') {
+        w.digits = [];
+        for (const ch of txt) {
+          if (/\d/.test(ch)) {
+            const col = mk('span', 'digit'); const strip = mk('span', 'strip');
+            const target = +ch; const spins = 2 + w.digits.length;   /* later digits spin longer */
+            for (let k = 0; k <= spins * 10 + target; k++) strip.appendChild(mk('span', '', String(k % 10)));
+            col.appendChild(strip); sp.appendChild(col); w.digits.push({ strip, steps: spins * 10 + target });
+          } else sp.appendChild(document.createTextNode(ch));
+        }
+      } else {
+        if (type === 'a') { w.txt = mk('span', 'txt', txt); sp.appendChild(w.txt); }
+        else sp.appendChild(document.createTextNode(txt));
+        if (type === 'a') {
+          w.bars = [mk('span', 'bar'), mk('span', 'bar'), mk('span', 'bar')]; w.bars.forEach(b => sp.appendChild(b));
+          w.trail = mk('span', 'trail'); sp.appendChild(w.trail);
+          w.e1 = mk('span', 'echo', txt); w.e2 = mk('span', 'echo', txt); sp.appendChild(w.e1); sp.appendChild(w.e2);
+        }
+        w.blk = mk('span', 'blk'); sp.appendChild(w.blk);
+      }
+      line.appendChild(sp);
+      if (type === 'a') f += 3;
+      w.start = f; words.push(w);
+      f += type === 'a' ? KEY_GAP : type === 'n' ? NUM_GAP : PLAIN_GAP;
+    });
+  });
+  const len = f + HOLD + BLANK;
+  cards.push({ s, frame, cap, words, len, end: f + HOLD, offset: Math.floor(len * (0.3 + 0.09 * i)) % len });
+});
+function layout() {
+  cards.forEach(c => {
+    if (!c) return;
+    const u = c.frame.clientWidth / 1080; c.u = u;
+    c.cap.querySelectorAll('.w').forEach(e => e.style.fontSize = (e.dataset.size * u) + 'px');
+    c.cap.querySelectorAll('.line').forEach(l => {
+      const big = Math.max(...[...l.querySelectorAll('.w')].map(e => +e.dataset.size));
+      const lh = big * 1.12 * u; l.style.height = lh + 'px'; l.style.lineHeight = lh + 'px'; l.style.paddingLeft = (l.dataset.ind * u) + 'px';
+    });
+    c.cap.style.left = '0px'; c.cap.style.top = '0px';
+    const r = c.cap.getBoundingClientRect();
+    if (c.s.at) { c.cap.style.left = (c.s.at[0] * u) + 'px'; c.cap.style.top = (c.s.at[1] * u) + 'px'; }
+    else { c.cap.style.left = (540 * u - r.width / 2) + 'px'; c.cap.style.top = (c.s.center * u - r.height / 2) + 'px'; }
+  });
+}
+const glow = (g, u) => g ? `0 0 ${30 * u}px ${8 * u}px rgba(255,255,255,${0.75 * g}), 0 0 ${110 * u}px ${30 * u}px rgba(255,255,255,${0.32 * g})` : 'none';
+const hb = n => n ? `url(#h${n})` : 'none';
+const vb = n => n ? `url(#v${n})` : 'none';
+/* key word, frame by frame: [block %, trail %, glow, word visible, word h-blur, echoes] */
+/* Locked option A, reference sweep: no trail, no ghost, no echoes */
+const KEY = [
+  [25, 0, .9, 1, 0, 0],
+  [25, 0, 1, 1, 0, 0],
+  [55, 0, 1, 1, 0, 0],
+  [75, 0, 1, 1, 0, 0],
+  [100, 0, 1, 1, 0, 0]
+];
+function setEcho(e, on, dx, op, blur) { e.style.visibility = on ? 'visible' : 'hidden'; e.style.transform = `translateX(${-dx}em)`; e.style.opacity = op; e.style.filter = hb(blur); }
+function paint(c, fr) {
+  const u = c.u || c.frame.clientWidth / 1080; const blank = fr >= c.end;
+  c.words.forEach(w => {
+    const k = blank ? -1 : fr - w.start;
+    if (w.type === 'n') {
+      const vis = k >= 0; w.el.classList.toggle('on', vis);
+      const rollLen = 16; let g = 0;
+      w.digits.forEach((d, di) => {
+        const dur = rollLen + di * 4;                 /* digits land left to right */
+        const t = Math.max(0, Math.min(1, k / dur));
+        const e = 1 - Math.pow(1 - t, 3);             /* fast spin, eased landing */
+        const pos = vis ? e * d.steps : 0;
+        d.strip.style.transform = `translateY(${-pos}em)`;
+        const speed = t < 1 ? 3 * Math.pow(1 - t, 2) * d.steps / dur : 0;  /* steps per frame */
+        d.strip.style.filter = vb(speed > 2.2 ? 3 : speed > 1 ? 2 : speed > 0.35 ? 1 : 0);
+        if (t < 1 && vis) g = 1;
+      });
+      const settle = k - (rollLen + (w.digits.length - 1) * 4);
+      const glowAmt = !vis ? 0 : g ? 1 : settle < 6 ? 1 - settle / 6 : 0;
+      w.el.style.textShadow = glowAmt ? `0 0 ${24 * u}px rgba(255,255,255,${0.85 * glowAmt}), 0 0 ${70 * u}px rgba(255,255,255,${0.4 * glowAmt})` : '';
+      return;
+    }
+    if (w.type === 'p') {
+      const vis = k > 0; w.el.classList.toggle('on', vis);
+      w.blk.style.width = k === 0 ? '100%' : '0'; w.blk.style.boxShadow = 'none';
+      return;
+    }
+    /* key word */
+    if (mode === 'cine') { cine(w, k, u); return; }
+    resetCine(w);
+    let st = k >= 0 && k < KEY.length ? KEY[k] : null;
+    const done = k >= KEY.length;
+    w.el.classList.toggle('on', !!(done || (st && st[3] === 1)));
+    w.el.style.filter = st && st[3] === 1 ? hb(st[4]) : 'none';
+    w.blk.style.width = (st ? st[0] : 0) + '%'; w.blk.style.boxShadow = st && st[0] ? glow(st[2], u) : 'none';
+    w.trail.style.width = (st ? st[1] : 0) + '%'; w.trail.style.filter = st && st[1] ? hb(2) : 'none';
+    if (st && st[3] === 'ghost') { setEcho(w.e1, 1, .22, .5, st[4]); setEcho(w.e2, 0, 0, 0, 0); }
+    else if (st && st[5] === 2) { setEcho(w.e1, 1, .12, .4, 2); setEcho(w.e2, 1, .26, .18, 3); }
+    else if (st && st[5] === 1) { setEcho(w.e1, 1, .08, .22, 1); setEcho(w.e2, 0, 0, 0, 0); }
+    else { setEcho(w.e1, 0, 0, 0, 0); setEcho(w.e2, 0, 0, 0, 0); }
+  });
+}
+/* Cinematic key word: a soft light bar sweeps across on an ease-in-out curve, the word is revealed behind it,
+   rising 0.12em and settling from 104% scale with sideways blur clearing over 8 frames; the bar leaves two
+   fading afterimages (slow shutter) and the glow blooms then decays exponentially instead of cutting off. */
+const clamp = v => Math.max(0, Math.min(1, v));
+const eio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const eo4 = t => 1 - Math.pow(1 - t, 4);
+const SWEEP = 10, BARW = 40, CINE_END = 22;
+function resetCine(w) {
+  w.bars.forEach(b => { b.style.display = 'none'; });
+  Object.assign(w.txt.style, { opacity: '', transform: '', clipPath: '', filter: '', textShadow: '' });
+}
+function cine(w, k, u) {
+  [w.blk, w.trail].forEach(b => { b.style.width = '0'; b.style.boxShadow = 'none'; });
+  setEcho(w.e1, 0, 0, 0, 0); setEcho(w.e2, 0, 0, 0, 0);
+  w.el.style.filter = 'none';
+  if (k < 0) { w.el.classList.remove('on'); resetCine(w); return; }
+  w.el.classList.add('on');
+  if (k >= CINE_END) { resetCine(w); return; }
+  const barLeft = kk => eio(clamp(kk / SWEEP)) * (100 + BARW + 8) - BARW - 4;
+  const g = k < 3 ? (k + 1) / 3 : Math.exp(-(k - 3) / 4.5);
+  w.bars.forEach((b, i) => {
+    const kk = k - i * 1.2, L = barLeft(kk);
+    const on = kk >= 0 && L < 100 && k <= SWEEP + 1;
+    b.style.display = on ? 'block' : 'none';
+    if (!on) return;
+    b.style.left = L + '%'; b.style.width = BARW + '%';
+    b.style.opacity = [0.95, 0.38, 0.16][i] * (k < SWEEP ? 1 : 0.6);
+    b.style.filter = `blur(${(2 + i * 5) * u}px)`;
+    b.style.boxShadow = i === 0 ? glow(g, u) : 'none';
+  });
+  const reveal = k <= SWEEP + 1 ? Math.max(0, Math.min(100, barLeft(k) + BARW * 0.55)) : 100;
+  const rise = 1 - eo4(clamp(k / 11));
+  Object.assign(w.txt.style, {
+    clipPath: `inset(-0.4em ${100 - reveal}% -0.4em -0.4em)`,
+    opacity: String(eo4(clamp((k + 1) / 7))),
+    transform: `translateY(${rise * 0.12}em) scale(${1 + 0.04 * (1 - eo4(clamp(k / 16)))})`,
+    filter: hb(k <= 3 ? 3 : k <= 5 ? 2 : k <= 8 ? 1 : 0),
+    textShadow: k > SWEEP - 2 && g > 0.05 ? `0 0 ${26 * u}px rgba(255,255,255,${0.55 * g}), 0 .03em .15em rgba(0,0,0,.35)` : ''
+  });
+}
+let mode = 'v2';
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let tick = 0, slow = false, last = 0;
+function loop(ts) {
+  const step = (1000 / 30) * (slow ? 6 : 1);
+  if (ts - last >= step) { last = ts; tick++; cards.forEach(c => c && paint(c, (tick + c.offset) % c.len)); }
+  requestAnimationFrame(loop);
+}
+function start() {
+  layout();
+  if (reduce) { cards.forEach(c => c && paint(c, c.end - 1)); return; }
+  cards.forEach(c => c && paint(c, c.offset));
+  requestAnimationFrame(loop);
+}
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+window.addEventListener('resize', layout);
+const btn = document.getElementById('slow');
+btn.addEventListener('click', () => { slow = !slow; btn.setAttribute('aria-pressed', String(slow)); btn.textContent = slow ? 'Real speed' : 'Slow motion'; });
+</script>

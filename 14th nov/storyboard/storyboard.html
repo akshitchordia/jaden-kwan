@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fridge Reel B-roll Storyboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* one visual world: the reel's own palette. Layout: a timeline strip, then panels in shot order. */
+  --ink: #0d0c0b;
+  --panel: #161513;
+  --rule: #2b2925;
+  --paper: #f3eee5;
+  --dim: #8f897f;
+  --red: #e5332e;
+  --cool: #a9c2dc;
+  --display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ink); color: var(--paper); }
+body { font-family: var(--mono); font-size: 14px; line-height: 1.55; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; display: grid; gap: 40px; }
+header { display: grid; gap: 14px; max-width: 860px; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(44px, 7vw, 84px); line-height: .98; margin: 0; text-wrap: balance; }
+h1 em { font-style: italic; }
+.lede { font-size: 15px; color: #cfc8bc; max-width: 68ch; margin: 0; }
+h2 { font-family: var(--display); font-weight: 400; font-size: 34px; margin: 0; text-wrap: balance; }
+
+/* timeline */
+.tl { display: grid; gap: 10px; }
+.bar { position: relative; height: 54px; border: 1px solid var(--rule); background: #12110f; }
+.seg { position: absolute; top: 0; bottom: 0; border-right: 1px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 11px; overflow: hidden; white-space: nowrap; }
+.seg.face { background: #1d1c19; color: #6d685f; }
+.seg.hook { background: repeating-linear-gradient(135deg, #1d1c19 0 6px, #24221e 6px 12px); color: var(--dim); }
+.seg.broll { background: var(--paper); color: var(--ink); font-weight: 500; }
+.seg.arch { background: #2a3a4a; color: var(--cool); }
+.ov { position: absolute; top: -9px; height: 6px; background: var(--red); }
+.ticks { position: relative; height: 16px; font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.ticks span { position: absolute; transform: translateX(-50%); }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 12px; color: var(--dim); }
+.legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--rule); }
+
+/* panels */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px 22px; }
+.card { display: grid; gap: 12px; align-content: start; }
+.frame { position: relative; aspect-ratio: 9 / 16; background: #000; border: 1px solid var(--rule); cursor: zoom-in; padding: 0; display: block; width: 100%; }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.frame:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+.badge { position: absolute; top: 10px; left: 10px; background: var(--ink); color: var(--paper); font: 500 11px var(--mono); letter-spacing: .08em; padding: 4px 7px; }
+.meta { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; border-top: 1px solid var(--rule); padding-top: 10px; }
+.line { font-family: var(--display); font-size: 25px; line-height: 1.12; margin: 0; text-wrap: balance; }
+.moves { margin: 0; color: #cfc8bc; font-size: 13px; }
+.needs { display: inline-flex; gap: 8px; align-items: center; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.needs.mine .dot { background: var(--paper); }
+.needs.yours .dot { background: var(--red); }
+.needs.yours { color: #f1b1ad; }
+
+/* rules */
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
+.rule { padding: 18px 18px 18px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
+.rule b { font-family: var(--display); font-weight: 400; font-size: 22px; }
+.rule span { color: #bfb8ac; font-size: 13px; }
+.grab { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 24px; padding: 0; margin: 0; list-style: none; }
+.grab li { border-bottom: 1px solid var(--rule); padding: 10px 0; color: #cfc8bc; }
+.grab li b { color: var(--paper); font-weight: 500; }
+
+/* lightbox */
+dialog { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; }
+dialog::backdrop { background: rgba(5,5,4,.92); }
+dialog img { height: min(92vh, 1600px); width: auto; display: block; }
+dialog button { position: fixed; top: 16px; right: 16px; background: var(--paper); color: var(--ink); border: 0; font: 500 13px var(--mono); padding: 8px 12px; cursor: pointer; }
+footer { color: var(--dim); font-size: 12px; border-top: 1px solid var(--rule); padding-top: 18px; }
+@media (max-width: 640px) { .seg { font-size: 0; } .wrap { padding-top: 32px; } }
+@media (prefers-reduced-motion: no-preference) { .frame img { transition: filter .2s; } .frame:hover img { filter: brightness(1.08); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">14th Nov reel · Alexandr Wang / Scale AI · storyboard v1</div>
+    <h1>The fridge, <em>in thirteen frames</em></h1>
+    <p class="lede">These are real frames from my motion pipeline, at 1080×1920, on the locked v2 cut (52.8 s). Captions are in the locked serif glow, inside the Reels safe zone. Halftone is on every graphic, never on your face. Grey blocks and silhouettes mark where your photos, footage and real screenshots go.</p>
+  </header>
+
+  <section class="tl" aria-label="Timeline of the v2 cut">
+    <h2>Where it sits</h2>
+    <div class="bar" id="bar"></div>
+    <div class="ticks" id="ticks"></div>
+    <div class="legend">
+      <span><i style="background:var(--paper)"></i>B-roll / graphic</span>
+      <span><i style="background:#1d1c19"></i>Your face</span>
+      <span><i style="background:#2a3a4a"></i>Wang archival (clean)</span>
+      <span><i style="background:var(--red)"></i>Overlay on archival</span>
+      <span><i style="background:repeating-linear-gradient(135deg,#1d1c19 0 4px,#24221e 4px 8px)"></i>Hook (next pass)</span>
+    </div>
+  </section>
+
+  <section class="grid" id="grid" aria-label="Storyboard panels"></section>
+
+  <section style="display:grid;gap:18px">
+    <h2>Ground rules this board keeps</h2>
+    <div class="rules">
+      <div class="rule"><b>Wang only as paper cutouts</b><span>Cut from real photos you pick. No generated photoreal Wang anywhere.</span></div>
+      <div class="rule"><b>Real screenshots only</b><span>The Product Hunt page and his July post are your real screenshots. I animate them; I don't recreate them.</span></div>
+      <div class="rule"><b>Archival stays clean</b><span>No B-roll on top of Wang. The ×1,000,000 counter is the only overlay.</span></div>
+      <div class="rule"><b>Your face keeps the punches</b><span>"Roommates", "biggest customer", "That's the formula", the "fridge" snap and the final line stay on camera.</span></div>
+      <div class="rule"><b>One accent</b><span>Fridge-light cold white on warm black, with red only for REC and the "wrong" moments.</span></div>
+      <div class="rule"><b>No caption where the graphic says it</b><span>The playbook card carries its own words, so there's no caption under it.</span></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>What you'd grab</h2>
+    <ul class="grab">
+      <li><b>B01</b> · a young Wang photo (2015–17)</li>
+      <li><b>B04</b> · Scale API on Product Hunt, 2016 (screenshot)</li>
+      <li><b>B05</b> · Cruise robotaxi, SF at night</li>
+      <li><b>B06</b> · night dashcam, traffic + a pedestrian</li>
+      <li><b>B07</b> · any young Wang photo, for the sticker</li>
+      <li><b>B09</b> · a recent Wang photo (2025–26)</li>
+      <li><b>B10</b> · his July 2026 post (screenshot)</li>
+      <li><b>B02 / B11</b> · nothing: I build the fridge in code (your own fridge plate works too)</li>
+    </ul>
+  </section>
+
+  <footer>Storyboard only. Nothing here is built into the edit yet. Sound and the hook come in their own passes.</footer>
+</div>
+
+<dialog id="lb" aria-label="Frame at full size"><button type="button" id="lbx">Close</button><img id="lbi" alt=""></dialog>
+
+<script>
+const T = 52.76;
+const segs = [
+  ['hook', 0, 4.92, 'HOOK'], ['face', 4.92, 5.1, ''], ['broll', 5.1, 6.6, 'B01'], ['face', 6.6, 8.2, ''],
+  ['broll', 8.2, 11.1, 'B02'], ['arch', 11.1, 18.9, 'WANG'], ['face', 18.9, 19.6, ''],
+  ['broll', 19.6, 20.8, 'B03'], ['broll', 20.8, 22.5, 'B04'], ['face', 22.5, 25.9, ''],
+  ['broll', 25.9, 29.2, 'B05'], ['face', 29.2, 30.5, ''], ['broll', 30.5, 32.4, 'B06'],
+  ['broll', 32.4, 35.4, 'B07'], ['face', 35.4, 36.1, ''], ['broll', 36.1, 39.6, 'B08'],
+  ['face', 39.6, 44.4, ''], ['broll', 44.4, 46.8, 'B09'], ['broll', 46.8, 49.0, 'B10'],
+  ['face', 49.0, 51.2, ''], ['broll', 51.2, 52.76, 'B11']
+];
+const bar = document.getElementById('bar');
+segs.forEach(([k, a, b, l]) => {
+  const d = document.createElement('div');
+  d.className = 'seg ' + k; d.style.left = (a / T * 100) + '%'; d.style.width = ((b - a) / T * 100) + '%';
+  d.textContent = l; d.title = `${l || 'face'} ${a.toFixed(1)}–${b.toFixed(1)} s`; bar.appendChild(d);
+});
+const ov = document.createElement('div'); ov.className = 'ov';
+ov.style.left = (15.6 / T * 100) + '%'; ov.style.width = ((18.7 - 15.6) / T * 100) + '%'; ov.title = '×1,000,000 overlay'; bar.appendChild(ov);
+const ticks = document.getElementById('ticks');
+for (let s = 0; s <= 50; s += 10) { const t = document.createElement('span'); t.style.left = (s / T * 100) + '%'; t.textContent = s + 's'; ticks.appendChild(t); }
+
+const fmt = s => `0:${s.toFixed(1).padStart(4, '0')}`;
+const P = [
+  ['f01', 'B01', 5.1, 6.6, 'At MIT, Alexandr Wang', 'A paper dossier card drops in with a soft paper slap and a two-frame stop-motion wobble. The mono lines type in. Slow 4% push.', 'yours', 'Photo slot: your young-Wang pick'],
+  ['f02', 'B02 · A', 8.2, 10.0, '…so he tried to build a camera to catch them.', "Inside his fridge on a CCTV feed: REC blinks, the timestamp ticks, faint sensor noise. A hand slides in toward his labelled takeout. The detection box snaps on with a 3-frame overshoot and PERSON 0.41 types in.", 'mine', 'All built in code'],
+  ['f03', 'B02 · B', 10.0, 11.1, "It couldn't work.", "The model misfires. The box jumps to the wrong things, labels flip PERSON → MILK → PERSON 0.12, the lines go red and dashed, and NO MATCH appears. Hard cut into Wang on \"work.\" (This covers the whip-in on your face.)", 'mine', 'All built in code'],
+  ['f04', 'Overlay', 15.6, 18.7, 'I need like a million times more data than I have now.', 'The only overlay on the archival. The counter rolls ×1 → ×1,000,000 on motion-blurred serif digit reels and locks with a bloom on "million". MORE DATA tracks in underneath. It lands right after the whip through his cut.', 'mine', 'Built on your archival'],
+  ['f05', 'B03', 19.6, 20.8, 'So he bought scaleapi.com one night', 'Black. The clock fades up, then the URL types one letter per frame with a blinking cursor. Generic browser bar, no registrar branding. Slight push.', 'mine', 'All built in code'],
+  ['f06', 'B04', 20.8, 22.5, 'and launched on Product Hunt a week later.', 'Your real screenshot arrives as a paper print with a long shadow. Slow push, then a highlighter swipe across the real tagline, just before the punch-in on "An API for human labor".', 'yours', 'Real Product Hunt 2016 screenshot'],
+  ['f07', 'B05', 25.9, 29.2, 'then Cruise reached out through their website…', "Your Cruise night footage with halftone. A plain \"website inquiry\" card rises and settles, with a red new-message dot. Cut back to your face for the \"biggest customer\" snap.", 'yours', 'Cruise robotaxi footage'],
+  ['f08', 'B06', 30.5, 32.4, 'So Scale went all in on self-driving,', "Your dashcam footage plays while I draw the labelling layer one object at a time: corner brackets, then the hairline, then the tag. Car, pedestrian, cyclist, and the plastic bag last in red.", 'yours', 'Night dashcam footage'],
+  ['f09', 'B07', 32.4, 35.4, 'and Wang walked a computer vision conference booth to booth with a laptop.', 'A top-down expo floor plan draws on in hairlines. A red dotted path runs booth to booth while a paper sticker of Wang hops along it in stop-motion, with a soft paper tap on each landing.', 'yours', 'Young-Wang photo for the sticker'],
+  ['f10', 'B08', 36.1, 39.6, 'Launch broad, find who\'s desperate, and go in even if the market looks small.', 'The Playbook fades up. Each step lights on its spoken word (red number, warm glow) and stays lit; step 03 lights on "go in". No caption underneath.', 'mine', 'All built in code'],
+  ['f11', 'B09', 44.4, 46.8, 'And this July, now running AI at Meta,', 'A callback to B01: the old card slides underneath and a new card lands on top. A red META stamp thumps on at an angle.', 'yours', 'Recent Wang photo'],
+  ['f12', 'B10', 46.8, 49.0, 'he posted that its AI could refill your fridge.', 'Your real post screenshot as a dark card. Slow push, with a highlight on the fridge line. Back to your face for the "fridge" snap.', 'yours', 'Real July 2026 post screenshot'],
+  ['f13', 'B11', 51.2, 52.76, '…the inspiration for Scale AI.', "Full circle. We're back inside the fridge from B02. The light dims as the door swings shut, the dark edge sweeps across, CAM 01 · OFF, and we end on black.", 'mine', 'All built in code'],
+];
+const grid = document.getElementById('grid');
+P.forEach(([f, id, a, b, line, moves, who, need]) => {
+  const c = document.createElement('article'); c.className = 'card';
+  c.innerHTML = `
+    <button class="frame" type="button" data-src="frames/${f}.jpg" aria-label="Open ${id} full size">
+      <img src="frames/${f}.jpg" alt="${id}: ${line.replace(/"/g, '&quot;')}" loading="lazy" width="1080" height="1920">
+      <span class="badge">${id}</span>
+    </button>
+    <div class="meta"><span>${fmt(a)} – ${fmt(b)}</span><span>${(b - a).toFixed(1)} s</span></div>
+    <p class="line">${line}</p>
+    <p class="moves">${moves}</p>
+    <span class="needs ${who}"><span class="dot"></span>${need}</span>`;
+  grid.appendChild(c);
+});
+const lb = document.getElementById('lb'), lbi = document.getElementById('lbi');
+grid.addEventListener('click', e => {
+  const b = e.target.closest('.frame'); if (!b) return;
+  lbi.src = b.dataset.src; lbi.alt = b.getAttribute('aria-label');
+  try { lb.showModal(); } catch (_) { lb.setAttribute('open', ''); }
+});
+document.getElementById('lbx').addEventListener('click', () => lb.close());
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+</script>
+</body>
+</html>

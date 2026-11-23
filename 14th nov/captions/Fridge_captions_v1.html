@@ -1,0 +1,151 @@
+<title>Fridge Captions v1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+<style>
+/* Layout: one column caption sheet; a 52.76 s timeline up top shows where every glow and roll lands, then the script row by row */
+:root {
+  --paper: #FBFAF6; --ink: #2B2B29; --ink-soft: #494444; --muted: #918989; --hair: rgba(43,43,41,.14);
+  --ox: #3B1005; --blush: #D8C7C0; --teal: #387478; --skip: #C8BCAE;
+  --primary: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --accent: "Newsreader", Georgia, "Times New Roman", serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--primary); }
+.wrap { max-width: 980px; margin: 0 auto; padding-block: 56px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mark { font-family: var(--accent); font-size: 22px; letter-spacing: -0.03em; margin: 0 0 32px; }
+h1 { font-family: var(--accent); font-weight: 400; font-size: clamp(34px, 6vw, 56px); line-height: .96; letter-spacing: -0.04em; margin: 0 0 14px; }
+.lede { font-size: 16px; line-height: 1.45; color: var(--ink-soft); max-width: 62ch; margin: 0; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--hair); margin: 32px 0 28px; border: 1px solid var(--hair); }
+@media (max-width: 640px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: var(--paper); padding: 16px 18px; }
+.stat b { display: block; font-family: var(--accent); font-weight: 400; font-size: 34px; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.stat span { display: block; margin-top: 6px; font-size: 12px; color: var(--muted); }
+.tl { position: relative; height: 70px; margin: 8px 0 6px; }
+.tl .base { position: absolute; left: 0; right: 0; top: 30px; height: 2px; background: var(--hair); }
+.tl .tick { position: absolute; top: 25px; width: 1px; height: 12px; background: rgba(43,43,41,.28); }
+.tl .skip { position: absolute; top: 26px; height: 10px; background: repeating-linear-gradient(45deg, var(--skip) 0 3px, transparent 3px 6px); }
+.tl .glow { position: absolute; top: 19px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--ox); box-shadow: 0 0 0 4px rgba(59,16,5,.12); }
+.tl .roll { position: absolute; top: 21px; width: 20px; height: 20px; margin-left: -10px; background: var(--teal); transform: rotate(45deg); }
+.tl .lab { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--accent); font-style: italic; font-size: 13px; white-space: nowrap; color: var(--ox); }
+.tl .lab.r { color: var(--teal); font-style: normal; top: 48px; }
+.axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.key { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 12px; color: var(--ink-soft); margin: 14px 0 40px; }
+.key i { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 6px; }
+.key .k1 { border-radius: 50%; background: var(--ox); } .key .k2 { background: var(--teal); transform: rotate(45deg); } .key .k3 { background: repeating-linear-gradient(45deg, var(--skip) 0 3px, transparent 3px 6px); } .key .k4 { width: 1px; background: rgba(43,43,41,.4); }
+ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair); }
+li.row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 150px; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--hair); }
+@media (max-width: 720px) { li.row { grid-template-columns: 44px 56px minmax(0, 1fr); } .shot { grid-column: 3; } }
+.num, .time { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.cap { font-size: 22px; line-height: 1.12; letter-spacing: -0.015em; font-weight: 500; }
+.cap .ln { display: block; }
+.cap em { font-family: var(--accent); font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: -0.01em; color: var(--ox); background: radial-gradient(closest-side, rgba(216,199,192,.85), rgba(216,199,192,0)); padding: 0 .12em; }
+.cap .rl { font-family: var(--accent); font-weight: 400; font-size: 1.25em; color: var(--teal); }
+.cap .note { display: block; font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+.shot { font-size: 12px; color: var(--ink-soft); line-height: 1.35; }
+.shot b { display: block; font-weight: 500; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+li.row.skipped .cap { font-weight: 400; font-size: 16px; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(145,137,137,.5); }
+li.row.skipped .cap .why { display: block; text-decoration: none; font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+.foot { margin-top: 40px; display: grid; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); max-width: 70ch; }
+.foot b { color: var(--ink); font-weight: 500; }
+</style>
+
+<div class="wrap">
+  <p class="mark">tastefully.</p>
+  <h1>Fridge reel, every caption</h1>
+  <p class="lede">The whole script in caption lock v2, phrase by phrase. The glow sweep is kept to six payoff words, about one every nine seconds and never on two phrases in a row. Everything else comes on with the plain block.</p>
+
+  <div class="stats">
+    <div class="stat"><b id="sGlow">6</b><span>glow words</span></div>
+    <div class="stat"><b>1</b><span>rolling number</span></div>
+    <div class="stat"><b id="sPh">30</b><span>captioned phrases</span></div>
+    <div class="stat"><b>3</b><span>lines skipped, shot already says it</span></div>
+  </div>
+
+  <div class="tl" id="tl" aria-label="Timeline of glow words, number rolls and skipped lines across 52.8 seconds"><div class="base"></div></div>
+  <div class="axis"><span>0:00</span><span>0:10</span><span>0:20</span><span>0:30</span><span>0:40</span><span>0:52.8</span></div>
+  <div class="key"><span><i class="k1"></i>Glow sweep</span><span><i class="k2"></i>Rolling number</span><span><i class="k3"></i>Skipped (on-screen text)</span><span><i class="k4"></i>Phrase start</span></div>
+
+  <ol id="rows"></ol>
+
+  <div class="foot">
+    <p><b>Left plain on purpose.</b> lightbulb, showed up, booth to booth, refill your fridge. Any of these can get the glow if you want it, but each one makes the rest count for less.</p>
+    <p><b>Placement.</b> Talking head: on the chest, left of the mic. B-roll: centred at about 52%, or moved up where the centre is busy (Wang photo, archival counter, Product Hunt, booth, phone).</p>
+    <p><b>To check at render.</b> Times are approximate from the beat map; exact word timings come from transcription. The archival lines follow the cut notes. If the big "FRIDGE" graphic behind your head stays at 0:49, line 31 drops "fridge."</p>
+  </div>
+</div>
+
+<script>
+/* g = glow word, r = rolling number. skip = line left out because the shot shows it */
+const R = [
+  [0.0, 'Hook, car clip', 'Centre', ['Meta paid', '{r:$14} billion']],
+  [1.6, 'Dollar cuts', 'Centre', ['for a stake', 'in a company']],
+  [2.6, 'CCTV cuts', 'Centre', ['that started', 'with a camera']],
+  [3.7, 'Fridge-cam cat', 'Centre', ['in a {g:fridge.}']],
+  [5.0, 'MIT match cut', 'Centre', ['At MIT']],
+  [5.8, 'Wang match cut', 'Up', ['Alexandr Wang']],
+  [6.6, 'Talking head', 'Chest', ['thought his', 'roommates were', '{g:stealing} his food']],
+  [8.2, 'Talking head', 'Chest', ['so he tried', 'to build a camera']],
+  [9.2, 'Talking head', 'Chest', ['to catch them.']],
+  [10.0, 'Talking head', 'Chest', ["It couldn't", 'work.']],
+  [11.6, 'Wang archival', 'Centre', ['and then that', 'was the lightbulb', 'moment']],
+  [15.6, 'Archival + x1,000,000', 'Up', ['I need like', 'more data', 'than I have now.'], 'The x1,000,000 graphic already says "a million times".'],
+  [18.8, 'Talking head, J-cut', 'Chest', ['So he bought', 'scaleapi.com', 'one night']],
+  [20.8, 'Product Hunt on the Mac', 'Up', ['and launched', 'on Product Hunt', 'a week later']],
+  [22.5, 'Talking head', 'Chest', ['an API for', '{g:human labor.}']],
+  [24.3, 'Engineers crowd', 'Centre', ['Random engineers', 'showed up']],
+  [25.9, 'Cruise wordmark', '', null, 'then Cruise reached out', 'The Cruise wordmark says it.'],
+  [26.8, 'Cruise night cuts', 'Centre', ['through their website']],
+  [27.9, 'Cruise night cuts', 'Centre', ['and in the blink', 'of an eye']],
+  [29.2, 'Talking head, snap', 'Chest', ['became the', '{g:biggest customer.}']],
+  [30.5, 'Dashcam', 'Centre', ['So Scale went', 'all in on', 'self-driving']],
+  [32.4, 'Booth', 'Up', ['and Wang walked', 'a computer vision', 'conference']],
+  [33.8, 'Booth', 'Up', ['booth to booth', 'with a laptop.']],
+  [36.1, 'Playbook type card', '', null, "Launch broad, find who's desperate, and go in even if the market looks small", 'The playbook card says it word for word.'],
+  [39.6, 'Talking head', 'Chest', ["That's", '{g:the formula}']],
+  [40.9, 'Talking head', 'Chest', ['for winning', "when there's"]],
+  [41.6, 'AI plate with type', '', null, 'a few customers that have huge budgets', 'The plate says it.'],
+  [43.6, 'Talking head', 'Chest', ['And this July']],
+  [44.4, 'Meta portrait + wordmark', 'Centre', ['now running AI'], 'The Meta wordmark carries "at Meta".'],
+  [46.8, 'Phone, July post', 'Up', ['he posted that', 'its AI could']],
+  [48.0, 'Phone, cart', 'Up', ['refill your fridge.']],
+  [51.2, 'Talking head', 'Chest', ['This problem', 'was actually', 'the inspiration']],
+  [52.0, 'Talking head', 'Chest', ['for', '{g:Scale AI.}']]
+];
+const DUR = 52.76;
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const fmt = t => { const m = Math.floor(t / 60), s = (t % 60).toFixed(1).padStart(4, '0'); return `${m}:${s}`; };
+const lineHTML = l => esc(l).replace(/\{g:([^}]+)\}/g, '<em>$1</em>').replace(/\{r:([^}]+)\}/g, '<span class="rl">$1</span>');
+const rows = document.getElementById('rows'), tl = document.getElementById('tl');
+let glows = 0, phrases = 0, n = 0;
+R.forEach((r, i) => {
+  const [t, shot, place, lines, a, b] = r;
+  const li = document.createElement('li'); li.className = 'row' + (lines ? '' : ' skipped');
+  n++;
+  const capHTML = lines ? lines.map(l => `<span class="ln">${lineHTML(l)}</span>`).join('') + (a ? `<span class="note">${esc(a)}</span>` : '')
+                        : `${esc(a)}<span class="why">Skipped. ${esc(b)}</span>`;
+  li.innerHTML = `<span class="num">${String(n).padStart(2, '0')}</span><span class="time">${fmt(t)}</span><span class="cap">${capHTML}</span><span class="shot"><b>${lines ? esc(place) : 'No caption'}</b>${esc(shot)}</span>`;
+  rows.appendChild(li);
+  const x = (t / DUR) * 100;
+  if (!lines) {
+    const next = R[i + 1] ? R[i + 1][0] : DUR;
+    const s = document.createElement('div'); s.className = 'skip'; s.style.left = x + '%'; s.style.width = ((next - t) / DUR * 100) + '%'; tl.appendChild(s);
+    return;
+  }
+  phrases++;
+  const tk = document.createElement('div'); tk.className = 'tick'; tk.style.left = x + '%'; tl.appendChild(tk);
+  const all = lines.join(' ');
+  const g = all.match(/\{g:([^}]+)\}/), ro = all.match(/\{r:([^}]+)\}/);
+  if (g || ro) {
+    const tt = Math.min(t + 0.5, DUR - 0.2), xx = (tt / DUR) * 100;
+    const m = document.createElement('div'); m.className = g ? 'glow' : 'roll'; m.style.left = xx + '%'; tl.appendChild(m);
+    const lab = document.createElement('div'); lab.className = 'lab' + (g ? '' : ' r'); lab.textContent = (g ? g[1] : ro[1] + ' billion').replace(/\.$/, '');
+    lab.style.left = Math.min(Math.max(xx, 4), 94) + '%'; tl.appendChild(lab);
+    if (g) glows++;
+  }
+});
+document.getElementById('sGlow').textContent = glows;
+document.getElementById('sPh').textContent = phrases;
+</script>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference Master Board and Fridge Storyboard v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* one visual world: dark editing-suite board. Layout: master board (the reference, dissected) then storyboard v2 (our reel, rebuilt). */
+  --ink: #0d0c0b;
+  --panel: #151412;
+  --rule: #2b2925;
+  --paper: #f3eee5;
+  --dim: #8f897f;
+  --red: #e5332e;
+  --display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ink); color: var(--paper); }
+body { font-family: var(--mono); font-size: 14px; line-height: 1.55; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; display: grid; gap: 56px; }
+header { display: grid; gap: 14px; max-width: 900px; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(44px, 7vw, 84px); line-height: .98; margin: 0; text-wrap: balance; }
+h1 em, h2 em { font-style: italic; }
+h2 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 4.5vw, 52px); line-height: 1; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 400; font-size: 28px; margin: 0; }
+p { margin: 0; }
+.lede { font-size: 15px; color: #cfc8bc; max-width: 70ch; }
+.part { display: grid; gap: 28px; }
+.partno { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.take { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
+.take div { padding: 18px 20px 18px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
+.take b { font-family: var(--display); font-weight: 400; font-size: 23px; }
+.take span { color: #bfb8ac; font-size: 13px; }
+.stats { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); }
+.stat { flex: 1 1 160px; padding: 16px 18px; border-right: 1px solid var(--rule); display: grid; gap: 2px; }
+.stat:last-child { border-right: 0; }
+.stat b { font-family: var(--display); font-weight: 400; font-size: 42px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--dim); font-size: 12px; }
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; }
+.cat { display: grid; gap: 14px; align-content: start; border-top: 1px solid var(--rule); padding-top: 16px; }
+.cat ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: #cfc8bc; font-size: 13px; }
+.cat ol b { color: var(--paper); font-weight: 500; }
+.strip { display: grid; grid-auto-flow: column; grid-auto-columns: 132px; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+.strip figure { margin: 0; display: grid; gap: 6px; }
+.strip img { width: 100%; aspect-ratio: 9/16; object-fit: cover; border: 1px solid var(--rule); display: block; }
+.strip figcaption { font-size: 11px; color: var(--dim); line-height: 1.35; }
+.strip figcaption b { color: var(--paper); font-weight: 500; display: block; }
+/* timeline */
+.tl { display: grid; gap: 10px; }
+.bar { position: relative; height: 54px; border: 1px solid var(--rule); background: #12110f; }
+.seg { position: absolute; top: 0; bottom: 0; border-right: 1px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 10px; overflow: hidden; white-space: nowrap; }
+.seg.face { background: #1d1c19; color: #6d685f; }
+.seg.dress { background: #57493a; color: var(--paper); }
+.seg.broll { background: var(--paper); color: var(--ink); font-weight: 500; }
+.seg.arch { background: #2a3a4a; color: #a9c2dc; }
+.ticks { position: relative; height: 16px; font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.ticks span { position: absolute; transform: translateX(-50%); }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 12px; color: var(--dim); }
+.legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--rule); }
+/* panels */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px 22px; }
+.card { display: grid; gap: 10px; align-content: start; }
+.frame { position: relative; aspect-ratio: 9 / 16; background: #000; border: 1px solid var(--rule); cursor: zoom-in; padding: 0; display: block; width: 100%; }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.frame:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+.badge { position: absolute; top: 10px; left: 10px; background: var(--ink); color: var(--paper); font: 500 11px var(--mono); letter-spacing: .08em; padding: 4px 7px; }
+.in { position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(13,12,11,.86); color: var(--paper); font: 400 11px var(--mono); padding: 5px 8px; }
+.in b { color: var(--red); font-weight: 500; }
+.meta { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; border-top: 1px solid var(--rule); padding-top: 10px; }
+.line { font-family: var(--display); font-size: 24px; line-height: 1.12; text-wrap: balance; }
+.moves { color: #cfc8bc; font-size: 13px; }
+.ref { font-size: 11px; color: var(--dim); }
+.needs { display: inline-flex; gap: 8px; align-items: center; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.needs.mine .dot { background: var(--paper); }
+.needs.yours .dot { background: var(--red); }
+.needs.yours { color: #f1b1ad; }
+.decide { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
+.decide div { padding: 18px 20px 18px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
+.decide b { font-family: var(--display); font-weight: 400; font-size: 22px; }
+.decide span { color: #bfb8ac; font-size: 13px; }
+dialog { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; }
+dialog::backdrop { background: rgba(5,5,4,.92); }
+dialog img { height: min(92vh, 1600px); width: auto; display: block; }
+dialog button { position: fixed; top: 16px; right: 16px; background: var(--paper); color: var(--ink); border: 0; font: 500 13px var(--mono); padding: 8px 12px; cursor: pointer; }
+footer { color: var(--dim); font-size: 12px; border-top: 1px solid var(--rule); padding-top: 18px; }
+@media (max-width: 640px) { .seg { font-size: 0; } .cats { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) { .frame img { transition: filter .2s; } .frame:hover img { filter: brightness(1.08); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">14th Nov reel · reference study + storyboard v2</div>
+    <h1>Every cut is <em>punctuation</em></h1>
+    <p class="lede">Part one takes the reference edit apart: pacing, transitions, type, graphic devices, and the finish. Part two rebuilds the fridge reel in that language, as real 1080×1920 frames from my pipeline, on the locked v2 cut. Grey halftone shapes stand in for your cutouts, photos and real screenshots.</p>
+  </header>
+
+  <section class="part">
+    <div class="partno">Part one · master board</div>
+    <h2>The reference, <em>dissected</em></h2>
+
+    <div class="stats">
+      <div class="stat"><b>31.5 s</b><span>runtime, 30 fps, VO-led</span></div>
+      <div class="stat"><b>21</b><span>shots before the end card</span></div>
+      <div class="stat"><b>1.2 s</b><span>average shot (0.6 to 3.5 s)</span></div>
+      <div class="stat"><b>~1 per cut</b><span>a flash, glitch, reveal or whip on almost every cut</span></div>
+      <div class="stat"><b>6.4 s</b><span>calm cream end card</span></div>
+    </div>
+
+    <div class="take">
+      <div><b>What it does brilliantly</b><span>The picture changes every beat of the VO, and every number gets its own designed moment. Depth (type behind people) makes flat stock feel shot.</span></div>
+      <div><b>Why it reads clean</b><span>One sans family carries everything, with a serif italic accent only on the soft words. Captions are tiny and placed in free space. Each shot does one thing.</span></div>
+      <div><b>Where it would hurt us</b><span>It's built for VO; we're talking-head, so the face keeps the punches. Overdone flashes tire the eye, so we keep one per cut at most. The AI 3D plates are the slop risk: use one or two, and design them.</span></div>
+    </div>
+
+    <div class="strip" aria-label="Reference stills">
+      <figure><img src="ref/r_0.08.jpg" alt="Negative flash"><figcaption><b>0:00.1</b>negative flash in</figcaption></figure>
+      <figure><img src="ref/r_0.40.jpg" alt="Logo and word caption"><figcaption><b>0:00.4</b>logo build, word caption</figcaption></figure>
+      <figure><img src="ref/r_1.20.jpg" alt="Selection handles on a face"><figcaption><b>0:01.2</b>selection handles + label</figcaption></figure>
+      <figure><img src="ref/r_2.08.jpg" alt="Glitch frame"><figcaption><b>0:02.1</b>RGB glitch frame</figcaption></figure>
+      <figure><img src="ref/r_2.40.jpg" alt="Article with inset photo"><figcaption><b>0:02.4</b>article + inset, serif italic</figcaption></figure>
+      <figure><img src="ref/r_2.83.jpg" alt="Rotating panel wipe"><figcaption><b>0:02.8</b>rotating panel wipe</figcaption></figure>
+      <figure><img src="ref/r_3.30.jpg" alt="Logo with confetti"><figcaption><b>0:03.3</b>sans + italic name, confetti</figcaption></figure>
+      <figure><img src="ref/r_5.00.jpg" alt="Podcast footage with caption"><figcaption><b>0:05.0</b>micro caption on footage</figcaption></figure>
+      <figure><img src="ref/r_6.95.jpg" alt="Tile reveal"><figcaption><b>0:07.0</b>tile mosaic reveal</figcaption></figure>
+      <figure><img src="ref/r_8.23.jpg" alt="White silhouette flash"><figcaption><b>0:08.2</b>white silhouette flash</figcaption></figure>
+      <figure><img src="ref/r_9.00.jpg" alt="Number behind head"><figcaption><b>0:09.0</b>number behind the head</figcaption></figure>
+      <figure><img src="ref/r_11.50.jpg" alt="Polaroid desk"><figcaption><b>0:11.5</b>polaroid desk, bold/light pair</figcaption></figure>
+      <figure><img src="ref/r_12.92.jpg" alt="Negative whip"><figcaption><b>0:12.9</b>negative + blur whip out</figcaption></figure>
+      <figure><img src="ref/r_13.80.jpg" alt="Perspective grid with logos"><figcaption><b>0:13.8</b>tilted grid, floating logos</figcaption></figure>
+      <figure><img src="ref/r_14.57.jpg" alt="Yellow silhouette flash"><figcaption><b>0:14.6</b>colour silhouette flash</figcaption></figure>
+      <figure><img src="ref/r_15.10.jpg" alt="Wordmark behind cutout"><figcaption><b>0:15.1</b>wordmark behind cutout</figcaption></figure>
+      <figure><img src="ref/r_18.60.jpg" alt="AI 3D plate"><figcaption><b>0:18.6</b>AI 3D plate, chunky 3D type</figcaption></figure>
+      <figure><img src="ref/r_20.50.jpg" alt="AI storefront plate"><figcaption><b>0:20.5</b>AI metaphor scene</figcaption></figure>
+      <figure><img src="ref/r_22.30.jpg" alt="Money cube with type"><figcaption><b>0:22.3</b>bold/light, type behind object</figcaption></figure>
+      <figure><img src="ref/r_24.10.jpg" alt="Huge type behind slot machine"><figcaption><b>0:24.1</b>huge type stacked behind</figcaption></figure>
+      <figure><img src="ref/r_29.80.jpg" alt="Cream end card"><figcaption><b>0:29.8</b>cream serif end card</figcaption></figure>
+    </div>
+
+    <div class="cats">
+      <div class="cat"><h3>Transitions</h3><ol>
+        <li><b>Negative flash</b>: one or two inverted frames on the cut (0:00.1, 0:12.9).</li>
+        <li><b>RGB glitch frame</b>: channel split, slice offsets, a negative band, about 3 frames (0:02.1).</li>
+        <li><b>Silhouette flash</b>: a cutout lands as a solid white or brand-colour shape, then the real photo shows through (0:08.2, 0:14.6).</li>
+        <li><b>Tile mosaic reveal</b>: white squares pop across a grid and flip to the next shot (0:07.0).</li>
+        <li><b>Rotating panel wipe</b>: a dark panel swings across on a diagonal (0:02.8).</li>
+        <li><b>Motion-blur whip</b>: the exit smears sideways into the next shot.</li>
+        <li><b>Hard cut on the beat</b> wherever the shot change itself is the hit.</li>
+      </ol></div>
+      <div class="cat"><h3>Type system</h3><ol>
+        <li><b>Micro captions</b>: a small white grotesk built word by word, with wide gaps and the newest word half-lit. Placed in free space, top or middle, never pinned to the bottom.</li>
+        <li><b>Numbers behind people</b>: huge bold type sits behind the head, so the subject cuts the word ("$8 Billion").</li>
+        <li><b>Bold/light pairs</b>: "Same / Company", "that is not a / valuation". Weight carries the emphasis.</li>
+        <li><b>Serif italic accent</b> on soft or human words ("this year", "Router", the end card).</li>
+        <li><b>Wordmark behind a cutout</b>: the company name fills the frame behind its person (NVIDIA, Zoom).</li>
+        <li><b>Chunky 3D display type</b> only on the AI plates ("$50 MILLION REVENUE").</li>
+      </ol></div>
+      <div class="cat"><h3>Graphic devices</h3><ol>
+        <li><b>Article backdrop + inset</b>: a real news page fills the frame, with a photo inset and an italic line on it.</li>
+        <li><b>Selection handles</b>: a thin box with square handles locks onto a face, with a one-word label.</li>
+        <li><b>Polaroid desk</b>: prints on coloured grid paper, a pen, dappled light, and the camera tilts.</li>
+        <li><b>Tilted grid</b>: a dark perspective floor with logos floating at different depths.</li>
+        <li><b>Cutouts on white</b>: real photos of people, cut out, on a soft white vignette.</li>
+        <li><b>AI metaphor scenes</b>: one object stands in for the number (building on clouds, a store, a money cube, a slot machine).</li>
+      </ol></div>
+      <div class="cat"><h3>Finish and rhythm</h3><ol>
+        <li><b>Heavy vignette</b>, soft bloom on highlights, fine grain on everything.</li>
+        <li><b>Nothing sits still</b>: every shot pushes, drifts or tilts.</li>
+        <li><b>One idea per shot</b>; the VO line decides the cut.</li>
+        <li><b>Colour changes per shot</b> (purple, white, orange, teal, cream), held together by the type.</li>
+        <li><b>A quiet end</b>: cream, serif italic typed on, then the product.</li>
+        <li><b>Sound</b>: I haven't broken the audio down yet. I'll do that in the sound pass.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <section class="part">
+    <div class="partno">Part two · storyboard v2</div>
+    <h2>The fridge, <em>in the reference language</em></h2>
+    <p class="lede">The cut and zoom stay exactly as locked. What changes is everything on top: more coverage, a designed moment on every number, type behind your head, micro captions, and a transition on each B-roll entrance.</p>
+
+    <div class="tl">
+      <div class="bar" id="bar"></div>
+      <div class="ticks" id="ticks"></div>
+      <div class="legend">
+        <span><i style="background:var(--paper)"></i>B-roll / graphic</span>
+        <span><i style="background:#57493a"></i>Your face, dressed (type behind head)</span>
+        <span><i style="background:#1d1c19"></i>Your face, captions only</span>
+        <span><i style="background:#2a3a4a"></i>Wang archival</span>
+      </div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div style="display:grid;gap:16px">
+      <h3>Three calls for you before I build</h3>
+      <div class="decide">
+        <div><b>Captions</b><span>The reference uses tiny word-by-word sans; our locked style is the Supercell serif glow. This board shows the reference style. Pick one to lock.</span></div>
+        <div><b>AI plates</b><span>I've used one (B10, "huge budgets"). The reference uses four. I'd stay at one or two, prompts written by me, generated by you.</span></div>
+        <div><b>Flash intensity</b><span>The reference flashes on nearly every cut. I'd keep one treatment per B-roll entrance and leave your face cuts to the locked whips and punches.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Storyboard only. Nothing is built into the edit yet. Your face cuts and zooms stay exactly as in the first-cut lock.</footer>
+</div>
+
+<dialog id="lb" aria-label="Frame at full size"><button type="button" id="lbx">Close</button><img id="lbi" alt=""></dialog>
+
+<script>
+const T = 52.76;
+const segs = [
+  ['dress',0,2.4,'H1'],['broll',2.4,4.92,'H2'],['face',4.92,5.1,''],['broll',5.1,6.6,'01'],['face',6.6,8.2,''],
+  ['broll',8.2,10.0,'02'],['broll',10.0,11.1,'03'],['arch',11.1,15.6,'WANG'],['broll',15.6,18.7,'×1M'],['arch',18.7,18.9,''],
+  ['face',18.9,19.6,''],['broll',19.6,20.8,'04'],['broll',20.8,22.5,'05'],['face',22.5,24.3,''],['broll',24.3,25.9,'06'],
+  ['broll',25.9,29.2,'07'],['face',29.2,30.5,''],['broll',30.5,32.4,'08'],['broll',32.4,35.4,'09'],['face',35.4,36.1,''],
+  ['broll',36.1,39.6,'10'],['face',39.6,41.6,''],['broll',41.6,43.6,'11'],['face',43.6,44.4,''],['broll',44.4,46.8,'12'],
+  ['broll',46.8,49.0,'13'],['dress',49.0,51.2,'F'],['broll',51.2,52.76,'END']
+];
+const bar = document.getElementById('bar');
+segs.forEach(([k,a,b,l]) => { const d = document.createElement('div'); d.className = 'seg ' + k; d.style.left = (a/T*100)+'%'; d.style.width = ((b-a)/T*100)+'%'; d.textContent = l; d.title = `${l||'face'} ${a.toFixed(1)}–${b.toFixed(1)} s`; bar.appendChild(d); });
+const ticks = document.getElementById('ticks');
+for (let s = 0; s <= 50; s += 10) { const t = document.createElement('span'); t.style.left = (s/T*100)+'%'; t.textContent = s+'s'; ticks.appendChild(t); }
+const fmt = s => `0:${s.toFixed(1).padStart(4,'0')}`;
+const P = [
+ ['s01','HOOK · H1',0.0,2.4,'Meta paid $14 billion…','Negative flash','"$14 Billion" rises from behind your shoulders and locks as you say "billion"; your head cuts through it. Micro caption builds word by word.','numbers behind people (0:09.0)','mine','Built on your footage'],
+ ['s02','HOOK · H2',2.4,4.9,'…a company that started with a camera in a fridge.','RGB glitch frame','The real Meta × Scale article fills the frame and drifts up. The fridge inset pops in, and "a camera in a fridge" sets in serif italic on it.','article + inset (0:02.4)','yours','Real article screenshot'],
+ ['s03','01',5.1,6.6,'At MIT, Alexandr Wang','Blur whip','Polaroid desk on orange grid paper. Three prints drop in one by one (MIT, the fridge, young Wang) while the camera tilts 6°. "Alexandr / Wang · MIT" in a bold/light pair.','polaroid desk (0:11.5)','yours','Young-Wang photo, MIT photo'],
+ ['s04','02',8.2,10.0,'…so he tried to build a camera to catch them.','White flash','The fridge cam. A box with square handles locks onto the hand and his takeout, and "catch them" labels it.','selection handles (0:01.2)','mine','All built in code'],
+ ['s05','03',10.0,11.1,"It couldn't work.",'Glitch out','The picture breaks: RGB split, slice offsets, a negative band. "couldn\'t" in serif italic with colour fringing. Hard cut into Wang.','glitch frame (0:02.1)','mine','All built in code'],
+ ['s06','Overlay',15.6,18.7,'I need like a million times more data…','Over the whip','"×1,000,000" in bold, in front (Wang fills the frame, so there\'s no room to put it behind him). The digits roll up, then the micro caption builds.','numbers as the hero (0:09.0)','mine','On your archival'],
+ ['s07','04',19.6,20.8,'So he bought scaleapi.com one night','Tile mosaic reveal','Squares flip across the grid in three waves to reveal 2:47 AM and the URL typing. "one night" at the top.','tile reveal (0:07.0)','mine','All built in code'],
+ ['s08','05',20.8,22.5,'and launched on Product Hunt a week later.','Rotating panel wipe','Your real Product Hunt page fills the frame with the tagline highlighted. A "+7 DAYS" inset pops in with "a week later" in italic.','article + inset (0:02.4)','yours','Real Product Hunt screenshot'],
+ ['s09','06',24.3,25.9,'Random engineers showed up,','Negative flash + whip','A tilted dark grid. Engineer avatar tiles pop in at different depths as the camera glides; one big tile blurs past in the foreground.','tilted grid (0:13.8)','mine','All built in code'],
+ ['s10','07',25.9,29.2,'then Cruise reached out through their website…','Orange silhouette flash','CRUISE fills the frame behind your robotaxi cutout, letters landing left to right. Back to your face for the "biggest customer" snap.','wordmark behind cutout (0:15.1)','yours','Robotaxi photo to cut out'],
+ ['s11','08',30.5,32.4,'So Scale went all in on self-driving,','Hard cut on the beat','Your dashcam with the labelling layer: brackets, then tags, with the plastic bag last in red, inside handles.','selection handles (0:01.2)','yours','Night dashcam footage'],
+ ['s12','09',32.4,35.4,'…booth to booth with a laptop.','Yellow silhouette flash','This is the flash frame: the Wang cutout lands as solid yellow, then the real photo shows and hops booth to booth over the expo floor.','colour silhouette flash (0:14.6)','yours','Expo footage + Wang photo'],
+ ['s13','10',36.1,39.6,"Launch broad, find who's desperate, and go in even if the market looks small.",'White flash','Pure type, built on your words: bold "Launch broad.", light "Find who\'s desperate.", bold "Go in," then serif italic for the soft clause. No caption underneath.','bold/light pairs (0:11.5)','mine','All built in code'],
+ ['s14','11',41.6,43.6,'…a few customers that have huge budgets.','Hard cut','The one AI plate: three huge cubes against a row of tiny ones on a soft sky, with chunky yellow 3D type. I write the prompt; you generate.','AI metaphor scene (0:18.6)','yours','AI plate from my prompt'],
+ ['s15','12',44.4,46.8,'And this July, now running AI at Meta,','Blue silhouette flash','META fills the frame behind a recent Wang cutout, which lands as a blue flash first.','wordmark behind cutout (0:15.1)','yours','Recent Wang photo to cut out'],
+ ['s16','13',46.8,49.0,'he posted that its AI could refill your fridge.','Glitch frame','His real post as the backdrop, with the fridge inset and "refill your fridge" in serif italic. Back to you for the snap.','article + inset (0:02.4)','yours','Real July post screenshot'],
+ ['s17','FACE · F',49.0,51.2,'…refill your fridge.','On the locked snap','"fridge." in huge serif italic behind your head, landing on the snap. Micro caption.','type behind people (0:09.0)','mine','Built on your footage'],
+ ['s18','END',51.2,52.76,'This problem was actually the inspiration for Scale AI.','White fade to cream','The reference\'s calm ending: cream, serif italic typed in, and a polaroid of the fridge, door half shut, rising into frame. Full circle.','cream end card (0:29.8)','mine','All built in code'],
+];
+const grid = document.getElementById('grid');
+P.forEach(([f,id,a,b,line,tin,moves,ref,who,need]) => {
+  const c = document.createElement('article'); c.className = 'card';
+  c.innerHTML = `
+    <button class="frame" type="button" data-src="frames/${f}.jpg" aria-label="Open ${id} full size">
+      <img src="frames/${f}.jpg" alt="${id}" loading="lazy" width="1080" height="1920">
+      <span class="badge">${id}</span>
+      <span class="in"><b>IN</b> · ${tin}</span>
+    </button>
+    <div class="meta"><span>${fmt(a)} – ${fmt(b)}</span><span>${(b-a).toFixed(1)} s</span></div>
+    <p class="line">${line}</p>
+    <p class="moves">${moves}</p>
+    <p class="ref">From the reference: ${ref}</p>
+    <span class="needs ${who}"><span class="dot"></span>${need}</span>`;
+  grid.appendChild(c);
+});
+const lb = document.getElementById('lb'), lbi = document.getElementById('lbi');
+document.body.addEventListener('click', e => {
+  const b = e.target.closest('.frame'); if (!b) return;
+  lbi.src = b.dataset.src; try { lb.showModal(); } catch (_) { lb.setAttribute('open',''); }
+});
+document.getElementById('lbx').addEventListener('click', () => lb.close());
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+</script>
+</body>
+</html>
